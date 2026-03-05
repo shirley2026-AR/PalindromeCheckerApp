@@ -1,58 +1,90 @@
-import java.util.Deque;
-import java.util.LinkedList;
-
 /**
  * =================================================
- * MAIN CLASS – UseCase7PalindromeCheckerApp
+ * MAIN CLASS – UseCase8PalindromeCheckerApp
  * =================================================
  *
- * Use Case 7: Deque-Based Optimized Palindrome Checker
+ * Use Case 8: Linked List Based Palindrome Checker
  *
  * Description:
  * This class checks whether a string is a palindrome
- * using a Deque (Double Ended Queue).
+ * using a Singly Linked List.
  *
- * At this stage, the application:
- * - Inserts characters into a deque
- * - Removes first and last elements
- * - Compares them until deque is empty
- * - Displays the result
+ * Steps:
+ * - Convert string to linked list
+ * - Find middle using fast and slow pointers
+ * - Reverse second half
+ * - Compare both halves
  *
- * Data Structure: Deque
- *
- * @author Developer
- * @version 7.0
+ * Data Structure: Singly Linked List
  */
 
 public class PalindromeCheckerApp {
 
-    /**
-     * Application entry point for UC7.
-     * @param args Command-line arguments
-     */
+    // Node class for singly linked list
+    static class Node {
+        char data;
+        Node next;
+
+        Node(char data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
     public static void main(String[] args) {
 
-        String input = "refer";
+        String input = "level";
 
-        Deque<Character> deque = new LinkedList<>();
+        // Convert string to linked list
+        Node head = null;
+        Node tail = null;
 
-        // Insert characters into deque
         for (int i = 0; i < input.length(); i++) {
-            deque.addLast(input.charAt(i));
+            Node newNode = new Node(input.charAt(i));
+
+            if (head == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
         }
+
+        // Find middle using fast and slow pointers
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Reverse second half
+        Node prev = null;
+        Node current = slow;
+
+        while (current != null) {
+            Node next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+
+        // Compare first half and reversed second half
+        Node firstHalf = head;
+        Node secondHalf = prev;
 
         boolean isPalindrome = true;
 
-        // Compare front and rear elements
-        while (deque.size() > 1) {
-
-            char front = deque.removeFirst();
-            char rear = deque.removeLast();
-
-            if (front != rear) {
+        while (secondHalf != null) {
+            if (firstHalf.data != secondHalf.data) {
                 isPalindrome = false;
                 break;
             }
+
+            firstHalf = firstHalf.next;
+            secondHalf = secondHalf.next;
         }
 
         System.out.println("Input text: " + input);
