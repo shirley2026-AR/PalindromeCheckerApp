@@ -1,36 +1,41 @@
-
 /**
- * Palindrome Checker App
- * UC1 + UC2 Implementation
+ * Use Case 3: Palindrome Check Using String Reverse
  *
- * UC1: Display welcome message
- * UC2: Check a hardcoded palindrome string
+ * Description:
+ * This program checks whether a string is a palindrome
+ * by reversing the string using a loop and comparing it
+ * with the original string.
+ *
+ * Key Concepts:
+ * - For Loop
+ * - String Immutability
+ * - String Concatenation
+ * - equals() method
  */
 
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        // UC1: Welcome Message
-        System.out.println("Welcome to the Palindrome Checker Management System");
-        System.out.println("Version : 1.0");
-        System.out.println("System initialized successfully.");
-        System.out.println();
-
-        // UC2: Hardcoded palindrome check
+        // Original string
         String input = "madam";
-        boolean isPalindrome = true;
 
-        // Loop only till half of the string length
-        for (int i = 0; i < input.length() / 2; i++) {
+        // Variable to store reversed string
+        String reversed = "";
 
-            if (input.charAt(i) != input.charAt(input.length() - 1 - i)) {
-                isPalindrome = false;
-                break;
-            }
+        // Reverse the string using loop
+        for (int i = input.length() - 1; i >= 0; i--) {
+            reversed = reversed + input.charAt(i);
         }
 
+        // Print original string
         System.out.println("Input text: " + input);
-        System.out.println("Is it a Palindrome? : " + isPalindrome);
+
+        // Compare original and reversed strings
+        if (input.equals(reversed)) {
+            System.out.println("Is it a Palindrome? : true");
+        } else {
+            System.out.println("Is it a Palindrome? : false");
+        }
     }
 }
