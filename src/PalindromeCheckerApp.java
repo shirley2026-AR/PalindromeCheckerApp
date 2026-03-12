@@ -1,93 +1,41 @@
-/**
- * =================================================
- * MAIN CLASS – UseCase8PalindromeCheckerApp
- * =================================================
- *
- * Use Case 8: Linked List Based Palindrome Checker
- *
- * Description:
- * This class checks whether a string is a palindrome
- * using a Singly Linked List.
- *
- * Steps:
- * - Convert string to linked list
- * - Find middle using fast and slow pointers
- * - Reverse second half
- * - Compare both halves
- *
- * Data Structure: Singly Linked List
- */
+import java.util.Scanner;
 
 public class PalindromeCheckerApp {
 
-    // Node class for singly linked list
-    static class Node {
-        char data;
-        Node next;
+    // Recursive palindrome check
+    public static boolean isPalindrome(String str, int start, int end) {
 
-        Node(char data) {
-            this.data = data;
-            this.next = null;
+        if (start >= end) {
+            return true;
         }
+
+        if (str.charAt(start) != str.charAt(end)) {
+            return false;
+        }
+
+        return isPalindrome(str, start + 1, end - 1);
     }
 
     public static void main(String[] args) {
 
-        String input = "level";
+        Scanner scanner = new Scanner(System.in);
 
-        // Convert string to linked list
-        Node head = null;
-        Node tail = null;
+        System.out.println("=== Case-Insensitive & Space-Ignored Palindrome Checker ===");
+        System.out.print("Enter a string: ");
 
-        for (int i = 0; i < input.length(); i++) {
-            Node newNode = new Node(input.charAt(i));
+        String input = scanner.nextLine();
 
-            if (head == null) {
-                head = newNode;
-                tail = newNode;
-            } else {
-                tail.next = newNode;
-                tail = newNode;
-            }
+        // Remove spaces and convert to lowercase
+        String processedInput = input.replaceAll("\\s+", "").toLowerCase();
+
+        boolean result = isPalindrome(processedInput, 0, processedInput.length() - 1);
+
+        if (result) {
+            System.out.println("The given string is a Palindrome.");
+        } else {
+            System.out.println("The given string is NOT a Palindrome.");
         }
 
-        // Find middle using fast and slow pointers
-        Node slow = head;
-        Node fast = head;
-
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-
-        // Reverse second half
-        Node prev = null;
-        Node current = slow;
-
-        while (current != null) {
-            Node next = current.next;
-            current.next = prev;
-            prev = current;
-            current = next;
-        }
-
-        // Compare first half and reversed second half
-        Node firstHalf = head;
-        Node secondHalf = prev;
-
-        boolean isPalindrome = true;
-
-        while (secondHalf != null) {
-            if (firstHalf.data != secondHalf.data) {
-                isPalindrome = false;
-                break;
-            }
-
-            firstHalf = firstHalf.next;
-            secondHalf = secondHalf.next;
-        }
-
-        System.out.println("Input text: " + input);
-        System.out.println("Is it a Palindrome? : " + isPalindrome);
+        scanner.close();
     }
 }
